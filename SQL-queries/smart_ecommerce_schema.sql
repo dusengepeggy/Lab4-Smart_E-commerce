@@ -61,4 +61,8 @@ CREATE TABLE Review (
     CONSTRAINT fk_user_review FOREIGN KEY (user_id) REFERENCES "User"(user_id) ON DELETE CASCADE,
     CONSTRAINT fk_product_review FOREIGN KEY (product_id) REFERENCES Product(product_id) ON DELETE CASCADE
 );
+CREATE INDEX idx_product_name ON Product(name);
+CREATE INDEX idx_product_category ON Product(category_id);
+CREATE INDEX idx_order_user ON "Order"(user_id);
+CREATE INDEX idx_inventory_quantity ON Inventory(stock_quantity);
 COMMIT;
