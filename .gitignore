@@ -1,0 +1,15 @@
+# Database Secrets
+.env
+
+# IntelliJ Idea files
+.idea/
+*.iml
+out/
+gen/
+
+# Compiled Java files
+*.class
+
+# OS generated files
+.DS_Store
+Thumbs.db

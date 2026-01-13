@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.AuthController"
+            stylesheets="@auth-styles.css">
+    <center>
+        <VBox alignment="CENTER" spacing="30.0" styleClass="auth-container">
+            <padding>
+                <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
+            </padding>
+
+            <Label text="Smart E-Commerce" styleClass="app-title">
+                <font>
+                    <Font name="System Bold" size="32.0"/>
+                </font>
+            </Label>
+
+            <TabPane fx:id="authTabPane" tabClosingPolicy="UNAVAILABLE" styleClass="auth-tab-pane">
+                <Tab text="Login" styleClass="auth-tab">
+                    <VBox spacing="20.0" alignment="CENTER" styleClass="form-container">
+                        <padding>
+                            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+                        </padding>
+
+                        <Label text="Welcome Back!" styleClass="form-title">
+                            <font>
+                                <Font name="System Bold" size="20.0"/>
+                            </font>
+                        </Label>
+
+                        <VBox spacing="15.0" alignment="CENTER" styleClass="form-fields">
+                            <TextField fx:id="loginEmailField" promptText="Email" styleClass="form-field">
+                                <VBox.margin>
+                                    <Insets bottom="5.0"/>
+                                </VBox.margin>
+                            </TextField>
+
+                            <PasswordField fx:id="loginPasswordField" promptText="Password" styleClass="form-field">
+                                <VBox.margin>
+                                    <Insets bottom="5.0"/>
+                                </VBox.margin>
+                            </PasswordField>
+
+                            <Label fx:id="loginErrorLabel" styleClass="error-label" visible="false"/>
+
+                            <Button text="Login" onAction="#handleLogin" styleClass="primary-button"
+                                    defaultButton="true">
+                                <VBox.margin>
+                                    <Insets bottom="10.0" top="10.0"/>
+                                </VBox.margin>
+                            </Button>
+                        </VBox>
+                    </VBox>
+                </Tab>
+
+                <Tab text="Register" styleClass="auth-tab">
+                    <VBox spacing="20.0" alignment="CENTER" styleClass="form-container">
+                        <padding>
+                            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+                        </padding>
+
+                        <Label text="Create Account" styleClass="form-title">
+                            <font>
+                                <Font name="System Bold" size="20.0"/>
+                            </font>
+                        </Label>
+
+                        <VBox spacing="15.0" alignment="CENTER" styleClass="form-fields">
+                            <TextField fx:id="registerUsernameField" promptText="Username" styleClass="form-field">
+                                <VBox.margin>
+                                    <Insets bottom="5.0"/>
+                                </VBox.margin>
+                            </TextField>
+
+                            <TextField fx:id="registerEmailField" promptText="Email" styleClass="form-field">
+                                <VBox.margin>
+                                    <Insets bottom="5.0"/>
+                                </VBox.margin>
+                            </TextField>
+
+                            <PasswordField fx:id="registerPasswordField" promptText="Password"
+                                           styleClass="form-field">
+                                <VBox.margin>
+                                    <Insets bottom="5.0"/>
+                                </VBox.margin>
+                            </PasswordField>
+
+                            <PasswordField fx:id="registerConfirmPasswordField" promptText="Confirm Password"
+                                           styleClass="form-field">
+                                <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                </VBox.margin>
+                            </PasswordField>
+
+                            <Label fx:id="registerErrorLabel" styleClass="error-label" visible="false"/>
+
+                            <Button text="Register" onAction="#handleRegister" styleClass="primary-button"
+                                    defaultButton="true">
+                                <VBox.margin>
+                                    <Insets bottom="10.0"  top="10.0"/>
+                                </VBox.margin>
+                            </Button>
+                        </VBox>
+                    </VBox>
+                </Tab>
+            </TabPane>
+        </VBox>
+    </center>
+</BorderPane>
