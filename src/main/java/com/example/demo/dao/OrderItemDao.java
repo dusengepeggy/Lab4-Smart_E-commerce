@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.OrderItem;
+import com.example.demo.model.OrderItemWithProduct;
 import com.example.demo.dbConnection.dataConnection;
 
 import java.math.BigDecimal;
@@ -63,6 +64,41 @@ public class OrderItemDao {
         return null;
     }
     
+    public OrderItemWithProduct getOrderItemByIdWithProduct(int orderItemId) {
+        String sql = "SELECT oi.order_item_id, oi.order_id, oi.product_id, " +
+                     "p.name as product_name, p.description as product_description, " +
+                     "p.price as product_price, oi.quantity, oi.unit_price " +
+                     "FROM OrderItem oi " +
+                     "INNER JOIN Product p ON oi.product_id = p.product_id " +
+                     "WHERE oi.order_item_id = ?";
+        
+        try (Connection conn = dataConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, orderItemId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                return new OrderItemWithProduct(
+                    rs.getInt("order_item_id"),
+                    rs.getInt("order_id"),
+                    rs.getInt("product_id"),
+                    rs.getString("product_name"),
+                    rs.getString("product_description"),
+                    rs.getBigDecimal("product_price"),
+                    rs.getInt("quantity"),
+                    rs.getBigDecimal("unit_price")
+                );
+            }
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("08")) {
+                System.err.println("The server is currently unreachable.");
+            }
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     public List<OrderItem> getOrderItemsByOrderId(int orderId) {
         String sql = "SELECT * FROM OrderItem WHERE order_id = ? ORDER BY order_item_id";
         List<OrderItem> orderItems = new ArrayList<>();
@@ -78,6 +114,43 @@ public class OrderItemDao {
                     rs.getInt("order_item_id"),
                     rs.getInt("order_id"),
                     rs.getInt("product_id"),
+                    rs.getInt("quantity"),
+                    rs.getBigDecimal("unit_price")
+                ));
+            }
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("08")) {
+                System.err.println("The server is currently unreachable.");
+            }
+            e.printStackTrace();
+        }
+        return orderItems;
+    }
+    
+    public List<OrderItemWithProduct> getOrderItemsByOrderIdWithProduct(int orderId) {
+        String sql = "SELECT oi.order_item_id, oi.order_id, oi.product_id, " +
+                     "p.name as product_name, p.description as product_description, " +
+                     "p.price as product_price, oi.quantity, oi.unit_price " +
+                     "FROM OrderItem oi " +
+                     "INNER JOIN Product p ON oi.product_id = p.product_id " +
+                     "WHERE oi.order_id = ? " +
+                     "ORDER BY oi.order_item_id";
+        List<OrderItemWithProduct> orderItems = new ArrayList<>();
+        
+        try (Connection conn = dataConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, orderId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                orderItems.add(new OrderItemWithProduct(
+                    rs.getInt("order_item_id"),
+                    rs.getInt("order_id"),
+                    rs.getInt("product_id"),
+                    rs.getString("product_name"),
+                    rs.getString("product_description"),
+                    rs.getBigDecimal("product_price"),
                     rs.getInt("quantity"),
                     rs.getBigDecimal("unit_price")
                 ));

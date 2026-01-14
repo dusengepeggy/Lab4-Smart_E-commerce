@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.Product;
+import com.example.demo.model.ProductWithCategory;
 import com.example.demo.dbConnection.dataConnection;
 
 import java.math.BigDecimal;
@@ -171,5 +172,131 @@ public class ProductDao {
             e.printStackTrace();
             return "An unexpected error occurred. Please try again later.";
         }
+    }
+    
+    public List<ProductWithCategory> getAllProductsWithCategory() {
+        String sql = "SELECT p.product_id, p.category_id, c.category_name, " +
+                     "p.name, p.description, p.price, p.created_at " +
+                     "FROM Product p " +
+                     "INNER JOIN Category c ON p.category_id = c.category_id " +
+                     "ORDER BY p.name";
+        List<ProductWithCategory> products = new ArrayList<>();
+        
+        try (Connection conn = dataConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            
+            while (rs.next()) {
+                products.add(new ProductWithCategory(
+                    rs.getInt("product_id"),
+                    rs.getInt("category_id"),
+                    rs.getString("category_name"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getBigDecimal("price"),
+                    rs.getDate("created_at")
+                ));
+            }
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("08")) {
+                System.err.println("The server is currently unreachable.");
+            }
+            e.printStackTrace();
+        }
+        return products;
+    }
+    
+    public List<ProductWithCategory> getProductsByCategoryWithCategory(int categoryId) {
+        String sql = "SELECT p.product_id, p.category_id, c.category_name, " +
+                     "p.name, p.description, p.price, p.created_at " +
+                     "FROM Product p " +
+                     "INNER JOIN Category c ON p.category_id = c.category_id " +
+                     "WHERE p.category_id = ? " +
+                     "ORDER BY p.name";
+        List<ProductWithCategory> products = new ArrayList<>();
+        
+        try (Connection conn = dataConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, categoryId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                products.add(new ProductWithCategory(
+                    rs.getInt("product_id"),
+                    rs.getInt("category_id"),
+                    rs.getString("category_name"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getBigDecimal("price"),
+                    rs.getDate("created_at")
+                ));
+            }
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("08")) {
+                System.err.println("The server is currently unreachable.");
+            }
+            e.printStackTrace();
+        }
+        return products;
+    }
+    
+    public List<Product> searchProductsByName(String searchTerm) {
+        String sql = "SELECT * FROM Product WHERE LOWER(name) LIKE LOWER(?) ORDER BY name";
+        List<Product> products = new ArrayList<>();
+        
+        try (Connection conn = dataConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, "%" + searchTerm + "%");
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                products.add(new Product(
+                    rs.getInt("product_id"),
+                    rs.getInt("category_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getBigDecimal("price"),
+                    rs.getDate("created_at")
+                ));
+            }
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("08")) {
+                System.err.println("The server is currently unreachable.");
+            }
+            e.printStackTrace();
+        }
+        return products;
+    }
+    
+    public List<Product> getProductsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+        String sql = "SELECT * FROM Product WHERE price >= ? AND price <= ? ORDER BY price";
+        List<Product> products = new ArrayList<>();
+        
+        try (Connection conn = dataConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setBigDecimal(1, minPrice);
+            pstmt.setBigDecimal(2, maxPrice);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                products.add(new Product(
+                    rs.getInt("product_id"),
+                    rs.getInt("category_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getBigDecimal("price"),
+                    rs.getDate("created_at")
+                ));
+            }
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("08")) {
+                System.err.println("The server is currently unreachable.");
+            }
+            e.printStackTrace();
+        }
+        return products;
     }
 }

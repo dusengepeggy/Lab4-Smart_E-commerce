@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.Inventory;
+import com.example.demo.model.InventoryWithProduct;
 import com.example.demo.dbConnection.dataConnection;
 
 import java.sql.*;
@@ -64,18 +65,26 @@ public class InventoryDao {
         return null;
     }
     
-    public List<Inventory> getAllInventory() {
-        String sql = "SELECT * FROM Inventory ORDER BY product_id";
-        List<Inventory> inventories = new ArrayList<>();
+    public List<InventoryWithProduct> getAllInventory() {
+        String sql = "SELECT i.inventory_id, i.product_id, p.name as product_name, " +
+                     "p.price as product_price, p.description as product_description, " +
+                     "i.stock_quantity, i.warehouse_location, i.updated_at " +
+                     "FROM Inventory i " +
+                     "INNER JOIN Product p ON i.product_id = p.product_id " +
+                     "ORDER BY p.name";
+        List<InventoryWithProduct> inventories = new ArrayList<>();
         
         try (Connection conn = dataConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             
             while (rs.next()) {
-                inventories.add(new Inventory(
+                inventories.add(new InventoryWithProduct(
                     rs.getInt("inventory_id"),
                     rs.getInt("product_id"),
+                    rs.getString("product_name"),
+                    rs.getBigDecimal("product_price"),
+                    rs.getString("product_description"),
                     rs.getInt("stock_quantity"),
                     rs.getString("warehouse_location"),
                     rs.getTimestamp("updated_at")

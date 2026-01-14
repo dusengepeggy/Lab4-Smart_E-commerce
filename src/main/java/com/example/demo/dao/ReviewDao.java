@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.Review;
+import com.example.demo.model.ReviewWithDetails;
 import com.example.demo.dbConnection.dataConnection;
 
 import java.sql.*;
@@ -167,5 +168,125 @@ public class ReviewDao {
             e.printStackTrace();
             return "An unexpected error occurred. Please try again later.";
         }
+    }
+    
+    public List<ReviewWithDetails> getReviewsByProductIdWithDetails(int productId) {
+        String sql = "SELECT r.review_id, r.user_id, u.username, r.product_id, " +
+                     "p.name as product_name, r.rating, r.comment, r.review_date " +
+                     "FROM Review r " +
+                     "INNER JOIN \"User\" u ON r.user_id = u.user_id " +
+                     "INNER JOIN Product p ON r.product_id = p.product_id " +
+                     "WHERE r.product_id = ? " +
+                     "ORDER BY r.review_date DESC";
+        List<ReviewWithDetails> reviews = new ArrayList<>();
+        
+        try (Connection conn = dataConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                reviews.add(new ReviewWithDetails(
+                    rs.getInt("review_id"),
+                    rs.getInt("user_id"),
+                    rs.getString("username"),
+                    rs.getInt("product_id"),
+                    rs.getString("product_name"),
+                    rs.getInt("rating"),
+                    rs.getString("comment"),
+                    rs.getDate("review_date")
+                ));
+            }
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("08")) {
+                System.err.println("The server is currently unreachable.");
+            }
+            e.printStackTrace();
+        }
+        return reviews;
+    }
+    
+    public List<ReviewWithDetails> getReviewsByUserIdWithDetails(int userId) {
+        String sql = "SELECT r.review_id, r.user_id, u.username, r.product_id, " +
+                     "p.name as product_name, r.rating, r.comment, r.review_date " +
+                     "FROM Review r " +
+                     "INNER JOIN \"User\" u ON r.user_id = u.user_id " +
+                     "INNER JOIN Product p ON r.product_id = p.product_id " +
+                     "WHERE r.user_id = ? " +
+                     "ORDER BY r.review_date DESC";
+        List<ReviewWithDetails> reviews = new ArrayList<>();
+        
+        try (Connection conn = dataConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                reviews.add(new ReviewWithDetails(
+                    rs.getInt("review_id"),
+                    rs.getInt("user_id"),
+                    rs.getString("username"),
+                    rs.getInt("product_id"),
+                    rs.getString("product_name"),
+                    rs.getInt("rating"),
+                    rs.getString("comment"),
+                    rs.getDate("review_date")
+                ));
+            }
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("08")) {
+                System.err.println("The server is currently unreachable.");
+            }
+            e.printStackTrace();
+        }
+        return reviews;
+    }
+    
+    public Double getAverageRatingByProductId(int productId) {
+        String sql = "SELECT AVG(rating) as avg_rating FROM Review WHERE product_id = ?";
+        
+        try (Connection conn = dataConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                Double avgRating = rs.getDouble("avg_rating");
+                if (rs.wasNull()) {
+                    return null;
+                }
+                return avgRating;
+            }
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("08")) {
+                System.err.println("The server is currently unreachable.");
+            }
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public int getReviewCountByProductId(int productId) {
+        String sql = "SELECT COUNT(*) as review_count FROM Review WHERE product_id = ?";
+        
+        try (Connection conn = dataConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("review_count");
+            }
+        } catch (SQLException e) {
+            if (e.getSQLState().startsWith("08")) {
+                System.err.println("The server is currently unreachable.");
+            }
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
