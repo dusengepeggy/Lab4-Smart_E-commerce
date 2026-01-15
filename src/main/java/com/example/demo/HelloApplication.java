@@ -17,8 +17,8 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 600, 700);
         stage.setTitle("Smart E-Commerce - Authentication");
         stage.setScene(scene);
-        stage.setResizable(false);
-        stage.centerOnScreen();
+        stage.setResizable(true);
+        stage.setMaximized(true);
         stage.show();
     }
 

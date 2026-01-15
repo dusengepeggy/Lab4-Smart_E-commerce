@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<HBox xmlns:fx="http://javafx.com/fxml" styleClass="card" spacing="16.0" alignment="CENTER_LEFT">
+    <padding>
+        <Insets bottom="12.0" left="16.0" right="16.0" top="12.0"/>
+    </padding>
+    
+    <Region prefWidth="80.0" prefHeight="80.0" style="-fx-background-color: #dee2ff; -fx-background-radius: 8px;"/>
+    
+    <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+        <Label fx:id="productNameLabel" text="Product Name" styleClass="heading-4"/>
+        
+        <HBox spacing="16.0">
+            <Label fx:id="quantityLabel" text="Qty: 2" styleClass="text-secondary">
+                <font>
+                    <Font size="12.0"/>
+                </font>
+            </Label>
+            <Label fx:id="unitPriceLabel" text="Unit: $99.99" styleClass="text-secondary">
+                <font>
+                    <Font size="12.0"/>
+                </font>
+            </Label>
+        </HBox>
+        
+        <Label fx:id="subtotalLabel" text="Subtotal: $199.98" styleClass="heading-4" style="-fx-text-fill: #8e9aaf;">
+            <font>
+                <Font name="System Bold" size="16.0"/>
+            </font>
+        </Label>
+    </VBox>
+    
+    <VBox spacing="8.0" alignment="CENTER_RIGHT">
+        <Button fx:id="actionButton" text="View" styleClass="secondary-button" minWidth="80.0"/>
+        <Button fx:id="removeButton" text="Remove" styleClass="danger-button" minWidth="80.0" visible="false"/>
+    </VBox>
+</HBox>

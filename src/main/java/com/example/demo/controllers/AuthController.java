@@ -5,11 +5,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import com.example.demo.model.User;
+import com.example.demo.utils.ErrorHandler;
+import com.example.demo.utils.LoadingState;
 import com.example.demo.utils.NavigationUtils;
 import com.example.demo.utils.UserSession;
 import com.example.demo.utils.ValidationUtils;
 
-public class AuthController {
+public class AuthController extends BaseController {
     @FXML
     private TabPane authTabPane;
     @FXML
@@ -33,43 +35,63 @@ public class AuthController {
     
     @FXML
     public void initialize() {
-        userDao = new UserDao();
-        loginErrorLabel.setVisible(false);
-        registerErrorLabel.setVisible(false);
+        try {
+            userDao = new UserDao();
+            loginErrorLabel.setVisible(false);
+            registerErrorLabel.setVisible(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     @FXML
     private void handleLogin() {
-        loginErrorLabel.setVisible(false);
-        loginErrorLabel.setText("");
+        ErrorHandler.clearError(loginErrorLabel);
         
         String email = loginEmailField.getText().trim();
         String password = loginPasswordField.getText();
         
         String validationError = ValidationUtils.validateLoginFields(email, password);
         if (validationError != null) {
-            showLoginError(validationError);
+            ErrorHandler.handleValidationError(validationError, loginErrorLabel);
             return;
         }
         
-        String result = userDao.login(email, password);
+        Button loginButton = (Button) loginEmailField.getScene().lookup("#loginButton");
+        if (loginButton == null) {
+            loginButton = (Button) loginEmailField.getParent().lookup(".button");
+        }
         
-        if ("SUCCESS".equals(result)) {
-            User loggedInUser = UserSession.getLoggedInUser();
-            if (loggedInUser != null) {
-                navigateToMainPage();
+        try {
+            LoadingState.setLoading(loginButton, true);
+            LoadingState.setLoading(loginEmailField, true);
+            LoadingState.setLoading(loginPasswordField, true);
+            
+            String result = userDao.login(email, password);
+            
+            if ("SUCCESS".equals(result)) {
+                User loggedInUser = UserSession.getLoggedInUser();
+                if (loggedInUser != null) {
+                    navigateToMainPage();
+                } else {
+                    ErrorHandler.handleValidationError("Login failed. Please try again.", loginErrorLabel);
+                }
             } else {
-                showLoginError("Login failed. Please try again.");
+                ErrorHandler.handleValidationError(result, loginErrorLabel);
             }
-        } else {
-            showLoginError(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ErrorHandler.handleValidationError("An unexpected error occurred. Please try again.", loginErrorLabel);
+        } finally {
+            LoadingState.setLoading(loginButton, false);
+            LoadingState.setLoading(loginEmailField, false);
+            LoadingState.setLoading(loginPasswordField, false);
         }
     }
     
     @FXML
     private void handleRegister() {
-        registerErrorLabel.setVisible(false);
-        registerErrorLabel.setText("");
+        ErrorHandler.clearError(registerErrorLabel);
         
         String username = registerUsernameField.getText().trim();
         String email = registerEmailField.getText().trim();
@@ -79,36 +101,42 @@ public class AuthController {
         
         String validationError = ValidationUtils.validateRegistrationFields(username, email, password, confirmPassword);
         if (validationError != null) {
-            showRegisterError(validationError);
+            ErrorHandler.handleValidationError(validationError, registerErrorLabel);
             return;
         }
         
-        User newUser = new User(username, email, password, role);
-        String result = userDao.registerUser(newUser);
-        
-        if ("SUCCESS".equals(result)) {
-            showRegisterSuccess("Registration successful! Please login.");
-            clearRegisterFields();
-            authTabPane.getSelectionModel().select(0);
-        } else {
-            showRegisterError(result);
+        Button registerButton = (Button) registerUsernameField.getScene().lookup("#registerButton");
+        if (registerButton == null) {
+            registerButton = (Button) registerUsernameField.getParent().lookup(".button");
         }
-    }
-    
-    private void showLoginError(String message) {
-        loginErrorLabel.setText(message);
-        loginErrorLabel.setVisible(true);
-    }
-    
-    private void showRegisterError(String message) {
-        registerErrorLabel.setText(message);
-        registerErrorLabel.setVisible(true);
-    }
-    
-    private void showRegisterSuccess(String message) {
-        registerErrorLabel.setText(message);
-        registerErrorLabel.setStyle("-fx-text-fill: #27ae60;");
-        registerErrorLabel.setVisible(true);
+        
+        try {
+            LoadingState.setLoading(registerButton, true);
+            LoadingState.setLoading(registerUsernameField, true);
+            LoadingState.setLoading(registerEmailField, true);
+            LoadingState.setLoading(registerPasswordField, true);
+            LoadingState.setLoading(registerConfirmPasswordField, true);
+            
+            User newUser = new User(username, email, password, role);
+            String result = userDao.registerUser(newUser);
+            
+            if ("SUCCESS".equals(result)) {
+                ErrorHandler.showSuccessMessage("Registration successful! Please login.", registerErrorLabel);
+                clearRegisterFields();
+                authTabPane.getSelectionModel().select(0);
+            } else {
+                ErrorHandler.handleValidationError(result, registerErrorLabel);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ErrorHandler.handleValidationError("An unexpected error occurred. Please try again.", registerErrorLabel);
+        } finally {
+            LoadingState.setLoading(registerButton, false);
+            LoadingState.setLoading(registerUsernameField, false);
+            LoadingState.setLoading(registerEmailField, false);
+            LoadingState.setLoading(registerPasswordField, false);
+            LoadingState.setLoading(registerConfirmPasswordField, false);
+        }
     }
     
     private void clearRegisterFields() {
@@ -124,7 +152,12 @@ public class AuthController {
             NavigationUtils.navigateToMainPage(stage);
         } catch (Exception e) {
             e.printStackTrace();
-            showLoginError("Failed to load main page. Please try again.");
+            ErrorHandler.handleValidationError("Failed to load main page. Please try again.", loginErrorLabel);
         }
+    }
+    
+    @Override
+    protected javafx.scene.Node getRootNode() {
+        return authTabPane;
     }
 }

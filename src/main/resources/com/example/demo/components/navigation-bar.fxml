@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<?import java.lang.String?>
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.controllers.NavigationBarController"
+      styleClass="nav-bar" alignment="CENTER_LEFT" spacing="20.0">
+    <padding>
+        <Insets bottom="12.0" left="24.0" right="24.0" top="12.0"/>
+    </padding>
+    
+    <Label text="Smart E-Commerce" styleClass="heading-3" style="-fx-text-fill: white;">
+        <font>
+            <Font name="System Bold" size="20.0"/>
+        </font>
+    </Label>
+    
+    <Region HBox.hgrow="ALWAYS"/>
+    
+    <HBox spacing="12.0" alignment="CENTER_RIGHT">
+        <Label fx:id="userNameLabel" text="User" styleClass="text-white">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+        
+        <Label fx:id="userRoleLabel" text="Role" styleClass="text-white">
+            <font>
+                <Font size="12.0"/>
+            </font>
+        </Label>
+        
+        <Button fx:id="logoutButton" text="Logout" styleClass="secondary-button" onAction="#handleLogout">
+            <styleClass>
+                <String fx:value="nav-button"/>
+            </styleClass>
+        </Button>
+    </HBox>
+</HBox>

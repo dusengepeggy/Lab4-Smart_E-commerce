@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.ProductCatalogController"
+            stylesheets="@../../styles/main-styles.css">
+    <top>
+        <fx:include source="../../components/navigation-bar.fxml"/>
+    </top>
+    
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0" prefWidth="200.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            
+            <Label text="Menu" styleClass="heading-3">
+                <VBox.margin>
+                    <Insets bottom="16.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Button text="Dashboard" styleClass="sidebar-button" onAction="#navigateToDashboard"/>
+            <Button text="Products" styleClass="sidebar-button" style="-fx-background-color: #000000; -fx-text-fill: white;"/>
+            <Button fx:id="cartButton" text="Cart" styleClass="sidebar-button" onAction="#navigateToCart">
+                <graphic>
+                    <Label fx:id="cartBadgeLabel" text="(0)" styleClass="badge badge-primary"/>
+                </graphic>
+            </Button>
+            <Button text="Orders" styleClass="sidebar-button" onAction="#navigateToOrders"/>
+            <Button text="Profile" styleClass="sidebar-button" onAction="#navigateToProfile"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <VBox styleClass="content-pane" spacing="24.0">
+            <HBox spacing="16.0" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField" promptText="Search products..." prefWidth="300.0" styleClass="form-field" onAction="#handleSearch">
+                    <HBox.hgrow/>
+                </TextField>
+                <Button text="Search" styleClass="primary-button" onAction="#handleSearch"/>
+                <Button text="Clear" styleClass="secondary-button" onAction="#handleClearSearch"/>
+            </HBox>
+            
+            <HBox spacing="16.0">
+                <VBox spacing="12.0" prefWidth="200.0">
+                    <Label text="Filter by Category" styleClass="heading-4"/>
+                    <ListView fx:id="categoryListView"  styleClass="card" prefHeight="400.0"/>
+                    
+                    <Label text="Price Range" styleClass="heading-4">
+                        <VBox.margin>
+                            <Insets top="16.0"/>
+                        </VBox.margin>
+                    </Label>
+                    <HBox spacing="8.0">
+                        <TextField fx:id="minPriceField" promptText="Min" styleClass="form-field" prefWidth="80.0"/>
+                        <TextField fx:id="maxPriceField" promptText="Max" styleClass="form-field" prefWidth="80.0"/>
+                    </HBox>
+                    <Button text="Apply Filter" styleClass="primary-button" onAction="#handlePriceFilter">
+                        <VBox.margin>
+                            <Insets top="8.0"/>
+                        </VBox.margin>
+                    </Button>
+                </VBox>
+                
+                <VBox spacing="16.0" HBox.hgrow="ALWAYS">
+                    <HBox spacing="12.0" alignment="CENTER_LEFT">
+                        <Label fx:id="resultsLabel" text="All Products" styleClass="heading-3"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <ComboBox fx:id="sortComboBox" promptText="Sort by" styleClass="form-field"/>
+                    </HBox>
+                    
+                    <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+                        <FlowPane fx:id="productsContainer" hgap="16.0" vgap="16.0"/>
+                    </ScrollPane>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

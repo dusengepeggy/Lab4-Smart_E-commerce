@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.OrderHistoryController"
+            stylesheets="@../../styles/main-styles.css">
+    <top>
+        <fx:include source="../../components/navigation-bar.fxml"/>
+    </top>
+    
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0" prefWidth="200.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            
+            <Label text="Menu" styleClass="heading-3">
+                <VBox.margin>
+                    <Insets bottom="16.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Button text="Dashboard" styleClass="sidebar-button" onAction="#navigateToDashboard"/>
+            <Button text="Products" styleClass="sidebar-button" onAction="#navigateToProducts"/>
+            <Button fx:id="cartButton" text="Cart" styleClass="sidebar-button" onAction="#navigateToCart">
+                <graphic>
+                    <Label fx:id="cartBadgeLabel" text="(0)" styleClass="badge badge-primary"/>
+                </graphic>
+            </Button>
+            <Button text="Orders" styleClass="sidebar-button" style="-fx-background-color: #000000; -fx-text-fill: white;"/>
+            <Button text="Profile" styleClass="sidebar-button" onAction="#navigateToProfile"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <VBox styleClass="content-pane" spacing="24.0">
+            <Label text="Order History" styleClass="heading-1"/>
+            
+            <TableView fx:id="ordersTable" styleClass="table-view" prefHeight="600.0">
+                <columns>
+                    <TableColumn fx:id="orderIdColumn" text="Order ID" prefWidth="100.0"/>
+                    <TableColumn fx:id="dateColumn" text="Date" prefWidth="150.0"/>
+                    <TableColumn fx:id="totalColumn" text="Total" prefWidth="120.0"/>
+                    <TableColumn fx:id="statusColumn" text="Status" prefWidth="150.0"/>
+                    <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="200.0"/>
+                </columns>
+            </TableView>
+            
+            <VBox fx:id="orderDetailContainer" spacing="16.0" visible="false">
+                <Label fx:id="orderDetailTitle" text="Order Details" styleClass="heading-2"/>
+                <VBox fx:id="orderItemsContainer" spacing="12.0"/>
+                <HBox spacing="16.0">
+                    <Label text="Total:" styleClass="heading-3"/>
+                    <Label fx:id="orderTotalLabel" text="\$0.00" styleClass="heading-2"/>
+                </HBox>
+                <HBox spacing="12.0">
+                    <Button fx:id="cancelOrderButton" text="Cancel Order" styleClass="danger-button" visible="false" onAction="#handleCancelOrder"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

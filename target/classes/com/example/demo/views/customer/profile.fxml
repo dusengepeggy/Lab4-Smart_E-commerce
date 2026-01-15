@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.ProfileController"
+            stylesheets="@../../styles/main-styles.css">
+    <top>
+        <fx:include source="../../components/navigation-bar.fxml"/>
+    </top>
+    
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0" prefWidth="200.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            
+            <Label text="Menu" styleClass="heading-3">
+                <VBox.margin>
+                    <Insets bottom="16.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Button text="Dashboard" styleClass="sidebar-button" onAction="#navigateToDashboard"/>
+            <Button text="Products" styleClass="sidebar-button" onAction="#navigateToProducts"/>
+            <Button fx:id="cartButton" text="Cart" styleClass="sidebar-button" onAction="#navigateToCart">
+                <graphic>
+                    <Label fx:id="cartBadgeLabel" text="(0)" styleClass="badge badge-primary"/>
+                </graphic>
+            </Button>
+            <Button text="Orders" styleClass="sidebar-button" onAction="#navigateToOrders"/>
+            <Button text="Profile" styleClass="sidebar-button" style="-fx-background-color: #000000; -fx-text-fill: white;"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+            <VBox styleClass="content-pane" spacing="24.0">
+                <Label text="My Profile" styleClass="heading-1"/>
+                
+                <VBox styleClass="card" spacing="16.0">
+                    <Label text="Account Information" styleClass="heading-3"/>
+                    
+                    <VBox spacing="12.0">
+                        <Label text="Username" styleClass="text-secondary"/>
+                        <TextField fx:id="usernameField" styleClass="form-field" editable="false"/>
+                    </VBox>
+                    
+                    <VBox spacing="12.0">
+                        <Label text="Email" styleClass="text-secondary"/>
+                        <TextField fx:id="emailField" styleClass="form-field"/>
+                    </VBox>
+                    
+                    <Button text="Update Profile" styleClass="primary-button" onAction="#handleUpdateProfile" maxWidth="200.0"/>
+                    <Label fx:id="profileErrorLabel" styleClass="error-label" visible="false"/>
+                    <Label fx:id="profileSuccessLabel" styleClass="success-label" visible="false"/>
+                </VBox>
+                
+                <VBox styleClass="card" spacing="16.0">
+                    <Label text="Change Password" styleClass="heading-3"/>
+                    
+                    <VBox spacing="12.0">
+                        <Label text="Current Password" styleClass="text-secondary"/>
+                        <PasswordField fx:id="currentPasswordField" styleClass="form-field"/>
+                    </VBox>
+                    
+                    <VBox spacing="12.0">
+                        <Label text="New Password" styleClass="text-secondary"/>
+                        <PasswordField fx:id="newPasswordField" styleClass="form-field"/>
+                    </VBox>
+                    
+                    <VBox spacing="12.0">
+                        <Label text="Confirm New Password" styleClass="text-secondary"/>
+                        <PasswordField fx:id="confirmPasswordField" styleClass="form-field"/>
+                    </VBox>
+                    
+                    <Button text="Change Password" styleClass="primary-button" onAction="#handleChangePassword" maxWidth="200.0"/>
+                    <Label fx:id="passwordErrorLabel" styleClass="error-label" visible="false"/>
+                    <Label fx:id="passwordSuccessLabel" styleClass="success-label" visible="false"/>
+                </VBox>
+                
+                <VBox styleClass="card" spacing="16.0">
+                    <Label text="Order Statistics" styleClass="heading-3"/>
+                    <HBox spacing="24.0">
+                        <VBox spacing="8.0">
+                            <Label text="Total Orders" styleClass="text-secondary"/>
+                            <Label fx:id="totalOrdersStatLabel" text="0" styleClass="heading-2"/>
+                        </VBox>
+                        <VBox spacing="8.0">
+                            <Label text="Total Spent" styleClass="text-secondary"/>
+                            <Label fx:id="totalSpentLabel" text="\$0.00" styleClass="heading-2"/>
+                        </VBox>
+                        <VBox spacing="8.0">
+                            <Label text="Pending Orders" styleClass="text-secondary"/>
+                            <Label fx:id="pendingOrdersStatLabel" text="0" styleClass="heading-2"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

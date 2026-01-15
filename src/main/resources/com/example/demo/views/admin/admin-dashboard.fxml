@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.AdminController"
+            stylesheets="@../../styles/main-styles.css">
+    <top>
+        <fx:include source="../../components/navigation-bar.fxml"/>
+    </top>
+    
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0" prefWidth="200.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            
+            <Label text="Admin Menu" styleClass="heading-3">
+                <VBox.margin>
+                    <Insets bottom="16.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Button text="Dashboard" styleClass="sidebar-button" style="-fx-background-color: #000000; -fx-text-fill: white;"/>
+            <Button text="Products" styleClass="sidebar-button" onAction="#navigateToProducts"/>
+            <Button text="Categories" styleClass="sidebar-button" onAction="#navigateToCategories"/>
+            <Button text="Inventory" styleClass="sidebar-button" onAction="#navigateToInventory"/>
+            <Button text="Orders" styleClass="sidebar-button" onAction="#navigateToOrders"/>
+            <Button text="Users" styleClass="sidebar-button" onAction="#navigateToUsers"/>
+            <Button text="Reviews" styleClass="sidebar-button" onAction="#navigateToReviews"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+            <VBox styleClass="dashboard-pane" spacing="24.0">
+                <padding>
+                    <Insets bottom="24.0" left="24.0" right="24.0" top="24.0"/>
+                </padding>
+                
+                <Label fx:id="welcomeLabel" text="Admin Dashboard" styleClass="heading-1"/>
+                
+                <HBox spacing="16.0">
+                    <VBox styleClass="card" spacing="12.0" prefWidth="200.0">
+                        <Label text="Total Products" styleClass="text-secondary"/>
+                        <Label fx:id="totalProductsLabel" text="0" styleClass="heading-2"/>
+                    </VBox>
+                    
+                    <VBox styleClass="card" spacing="12.0" prefWidth="200.0">
+                        <Label text="Total Orders" styleClass="text-secondary"/>
+                        <Label fx:id="totalOrdersLabel" text="0" styleClass="heading-2"/>
+                    </VBox>
+                    
+                    <VBox styleClass="card" spacing="12.0" prefWidth="200.0">
+                        <Label text="Total Users" styleClass="text-secondary"/>
+                        <Label fx:id="totalUsersLabel" text="0" styleClass="heading-2"/>
+                    </VBox>
+                    
+                    <VBox styleClass="card" spacing="12.0" prefWidth="200.0">
+                        <Label text="Pending Orders" styleClass="text-secondary"/>
+                        <Label fx:id="pendingOrdersLabel" text="0" styleClass="heading-2"/>
+                    </VBox>
+                </HBox>
+                
+                <HBox spacing="16.0">
+                    <VBox styleClass="card" spacing="12.0" prefWidth="200.0">
+                        <Label text="Total Revenue" styleClass="text-secondary"/>
+                        <Label fx:id="totalRevenueLabel" text="/$0.00" styleClass="heading-2"/>
+                    </VBox>
+                    
+                    <VBox styleClass="card" spacing="12.0" prefWidth="200.0">
+                        <Label text="Low Stock Items" styleClass="text-secondary"/>
+                        <Label fx:id="lowStockLabel" text="0" styleClass="heading-2"/>
+                    </VBox>
+                    
+                    <VBox styleClass="card" spacing="12.0" prefWidth="200.0">
+                        <Label text="Total Reviews" styleClass="text-secondary"/>
+                        <Label fx:id="totalReviewsLabel" text="0" styleClass="heading-2"/>
+                    </VBox>
+                </HBox>
+                
+                <VBox spacing="16.0">
+                    <Label text="Recent Orders" styleClass="heading-3"/>
+                    <TableView fx:id="recentOrdersTable" styleClass="table-view" prefHeight="300.0">
+                        <columns>
+                            <TableColumn fx:id="orderIdCol" text="Order ID" prefWidth="100.0"/>
+                            <TableColumn fx:id="customerCol" text="Customer" prefWidth="150.0"/>
+                            <TableColumn fx:id="dateCol" text="Date" prefWidth="120.0"/>
+                            <TableColumn fx:id="amountCol" text="Amount" prefWidth="100.0"/>
+                            <TableColumn fx:id="statusCol" text="Status" prefWidth="100.0"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>
