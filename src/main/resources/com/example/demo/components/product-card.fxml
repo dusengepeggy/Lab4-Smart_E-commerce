@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" styleClass="card" spacing="12.0" prefWidth="250.0" maxWidth="250.0">
+    <padding>
+        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+    </padding>
+    
+<!--    <Region VBox.vgrow="ALWAYS" prefHeight="150.0" style="-fx-background-color: #dee2ff; -fx-background-radius: 8px;">-->
+<!--        <VBox.margin>-->
+<!--            <Pos>CENTER</Pos>-->
+<!--        </VBox.margin>-->
+<!--    </Region>-->
+    
+    <VBox spacing="8.0">
+        <Label fx:id="productNameLabel" text="Product Name" styleClass="heading-4" wrapText="true"/>
+        
+        <Label fx:id="categoryLabel" text="Category" styleClass="text-secondary">
+            <font>
+                <Font size="12.0"/>
+            </font>
+        </Label>
+        
+        <HBox alignment="CENTER_LEFT" spacing="8.0">
+            <Label fx:id="ratingLabel" text="★ 4.5" styleClass="text-secondary">
+                <font>
+                    <Font size="12.0"/>
+                </font>
+            </Label>
+            <Label fx:id="reviewCountLabel" text="(12 reviews)" styleClass="text-secondary">
+                <font>
+                    <Font size="11.0"/>
+                </font>
+            </Label>
+        </HBox>
+        
+        <Label fx:id="priceLabel" text="/$99.99" styleClass="heading-3" style="-fx-text-fill: #8e9aaf;">
+            <font>
+                <Font name="System Bold" size="20.0"/>
+            </font>
+        </Label>
+        
+        <Button fx:id="actionButton" text="Add to Cart" styleClass="primary-button" maxWidth="1.7976931348623157E308">
+            <VBox.margin>
+                <Insets top="8.0"/>
+            </VBox.margin>
+        </Button>
+    </VBox>
+</VBox>

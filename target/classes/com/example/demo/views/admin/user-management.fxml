@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.UserManagementController"
+            stylesheets="@../../styles/main-styles.css">
+    <top>
+        <fx:include source="../../components/navigation-bar.fxml"/>
+    </top>
+    
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0" prefWidth="200.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            
+            <Label text="Admin Menu" styleClass="heading-3">
+                <VBox.margin>
+                    <Insets bottom="16.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Button text="Dashboard" styleClass="sidebar-button" onAction="#navigateToDashboard"/>
+            <Button text="Products" styleClass="sidebar-button" onAction="#navigateToProducts"/>
+            <Button text="Categories" styleClass="sidebar-button" onAction="#navigateToCategories"/>
+            <Button text="Inventory" styleClass="sidebar-button" onAction="#navigateToInventory"/>
+            <Button text="Orders" styleClass="sidebar-button" onAction="#navigateToOrders"/>
+            <Button text="Users" styleClass="sidebar-button" style="-fx-background-color: #000000; -fx-text-fill: white;"/>
+            <Button text="Reviews" styleClass="sidebar-button" onAction="#navigateToReviews"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <VBox styleClass="content-pane" spacing="24.0">
+            <Label text="User Management" styleClass="heading-1"/>
+            
+            <HBox spacing="16.0" alignment="CENTER_LEFT">
+                <ComboBox fx:id="roleFilterComboBox" promptText="Filter by Role" styleClass="form-field" prefWidth="200.0"/>
+                <Button text="Filter" styleClass="primary-button" onAction="#handleFilter"/>
+            </HBox>
+            
+            <TableView fx:id="usersTable" styleClass="table-view" prefHeight="500.0">
+                <columns>
+                    <TableColumn fx:id="userIdCol" text="ID" prefWidth="60.0"/>
+                    <TableColumn fx:id="usernameCol" text="Username" prefWidth="150.0"/>
+                    <TableColumn fx:id="emailCol" text="Email" prefWidth="200.0"/>
+                    <TableColumn fx:id="roleCol" text="Role" prefWidth="100.0"/>
+                    <TableColumn fx:id="actionsCol" text="Actions" prefWidth="250.0"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

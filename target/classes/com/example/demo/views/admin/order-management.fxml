@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.OrderManagementController"
+            stylesheets="@../../styles/main-styles.css">
+    <top>
+        <fx:include source="../../components/navigation-bar.fxml"/>
+    </top>
+    
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0" prefWidth="200.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            
+            <Label text="Admin Menu" styleClass="heading-3">
+                <VBox.margin>
+                    <Insets bottom="16.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Button text="Dashboard" styleClass="sidebar-button" onAction="#navigateToDashboard"/>
+            <Button text="Products" styleClass="sidebar-button" onAction="#navigateToProducts"/>
+            <Button text="Categories" styleClass="sidebar-button" onAction="#navigateToCategories"/>
+            <Button text="Inventory" styleClass="sidebar-button" onAction="#navigateToInventory"/>
+            <Button text="Orders" styleClass="sidebar-button" style="-fx-background-color: #000000; -fx-text-fill: white;"/>
+            <Button text="Users" styleClass="sidebar-button" onAction="#navigateToUsers"/>
+            <Button text="Reviews" styleClass="sidebar-button" onAction="#navigateToReviews"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <VBox styleClass="content-pane" spacing="24.0">
+            <Label text="Order Management" styleClass="heading-1"/>
+            
+            <HBox spacing="16.0" alignment="CENTER_LEFT">
+                <ComboBox fx:id="statusFilterComboBox" promptText="Filter by Status" styleClass="form-field" prefWidth="200.0"/>
+                <Button text="Filter" styleClass="primary-button" onAction="#handleFilter"/>
+            </HBox>
+            
+            <TableView fx:id="ordersTable" styleClass="table-view" prefHeight="500.0">
+                <columns>
+                    <TableColumn fx:id="orderIdCol" text="Order ID" prefWidth="100.0"/>
+                    <TableColumn fx:id="customerCol" text="Customer" prefWidth="150.0"/>
+                    <TableColumn fx:id="emailCol" text="Email" prefWidth="200.0"/>
+                    <TableColumn fx:id="dateCol" text="Date" prefWidth="120.0"/>
+                    <TableColumn fx:id="amountCol" text="Amount" prefWidth="100.0"/>
+                    <TableColumn fx:id="statusCol" text="Status" prefWidth="120.0"/>
+                    <TableColumn fx:id="actionsCol" text="Actions" prefWidth="250.0"/>
+                </columns>
+            </TableView>
+            
+            <VBox fx:id="orderDetailContainer" styleClass="card" spacing="16.0" visible="false">
+                <Label fx:id="orderDetailTitle" text="Order Details" styleClass="heading-2"/>
+                <VBox fx:id="orderItemsContainer" spacing="12.0"/>
+                <HBox spacing="16.0">
+                    <Label text="Total:" styleClass="heading-3"/>
+                    <Label fx:id="orderTotalLabel" text="\$0.00" styleClass="heading-2"/>
+                </HBox>
+                <HBox spacing="12.0">
+                    <Label text="Status:" styleClass="heading-4"/>
+                    <ComboBox fx:id="statusComboBox" styleClass="form-field" prefWidth="150.0"/>
+                    <Button text="Update Status" styleClass="primary-button" onAction="#handleUpdateStatus"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

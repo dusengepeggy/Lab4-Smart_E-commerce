@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.CategoryManagementController"
+            stylesheets="@../../styles/main-styles.css">
+    <top>
+        <fx:include source="../../components/navigation-bar.fxml"/>
+    </top>
+    
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0" prefWidth="200.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            
+            <Label text="Admin Menu" styleClass="heading-3">
+                <VBox.margin>
+                    <Insets bottom="16.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Button text="Dashboard" styleClass="sidebar-button" onAction="#navigateToDashboard"/>
+            <Button text="Products" styleClass="sidebar-button" onAction="#navigateToProducts"/>
+            <Button text="Categories" styleClass="sidebar-button" style="-fx-background-color: #000000; -fx-text-fill: white;"/>
+            <Button text="Inventory" styleClass="sidebar-button" onAction="#navigateToInventory"/>
+            <Button text="Orders" styleClass="sidebar-button" onAction="#navigateToOrders"/>
+            <Button text="Users" styleClass="sidebar-button" onAction="#navigateToUsers"/>
+            <Button text="Reviews" styleClass="sidebar-button" onAction="#navigateToReviews"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <VBox styleClass="content-pane" spacing="24.0">
+            <HBox spacing="16.0" alignment="CENTER_LEFT">
+                <Label text="Category Management" styleClass="heading-1"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Add New Category" styleClass="primary-button" onAction="#handleAddCategory"/>
+            </HBox>
+            
+            <TableView fx:id="categoriesTable" styleClass="table-view" prefHeight="500.0">
+                <columns>
+                    <TableColumn fx:id="categoryIdCol" text="ID" prefWidth="60.0"/>
+                    <TableColumn fx:id="categoryNameCol" text="Name" prefWidth="200.0"/>
+                    <TableColumn fx:id="descriptionCol" text="Description" prefWidth="300.0"/>
+                    <TableColumn fx:id="actionsCol" text="Actions" prefWidth="200.0"/>
+                </columns>
+            </TableView>
+            
+            <VBox fx:id="categoryFormContainer" styleClass="card" spacing="16.0" visible="false">
+                <Label fx:id="formTitleLabel" text="Add Category" styleClass="heading-2"/>
+                
+                <VBox spacing="12.0">
+                    <Label text="Category Name" styleClass="text-secondary"/>
+                    <TextField fx:id="nameField" styleClass="form-field"/>
+                </VBox>
+                
+                <VBox spacing="12.0">
+                    <Label text="Description" styleClass="text-secondary"/>
+                    <TextArea fx:id="descriptionField" styleClass="form-field" prefRowCount="3" wrapText="true"/>
+                </VBox>
+                
+                <HBox spacing="12.0">
+                    <Button text="Save" styleClass="primary-button" onAction="#handleSaveCategory"/>
+                    <Button text="Cancel" styleClass="secondary-button" onAction="#handleCancelForm"/>
+                </HBox>
+                
+                <Label fx:id="categoryErrorLabel" styleClass="error-label" visible="false"/>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

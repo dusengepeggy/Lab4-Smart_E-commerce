@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.InventoryManagementController"
+            stylesheets="@../../styles/main-styles.css">
+    <top>
+        <fx:include source="../../components/navigation-bar.fxml"/>
+    </top>
+    
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0" prefWidth="200.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            
+            <Label text="Admin Menu" styleClass="heading-3">
+                <VBox.margin>
+                    <Insets bottom="16.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Button text="Dashboard" styleClass="sidebar-button" onAction="#navigateToDashboard"/>
+            <Button text="Products" styleClass="sidebar-button" onAction="#navigateToProducts"/>
+            <Button text="Categories" styleClass="sidebar-button" onAction="#navigateToCategories"/>
+            <Button text="Inventory" styleClass="sidebar-button" style="-fx-background-color: #000000; -fx-text-fill: white;"/>
+            <Button text="Orders" styleClass="sidebar-button" onAction="#navigateToOrders"/>
+            <Button text="Users" styleClass="sidebar-button" onAction="#navigateToUsers"/>
+            <Button text="Reviews" styleClass="sidebar-button" onAction="#navigateToReviews"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <VBox styleClass="content-pane" spacing="24.0">
+            <HBox spacing="16.0" alignment="CENTER_LEFT">
+                <Label text="Inventory Management" styleClass="heading-1"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Add Inventory" styleClass="primary-button" onAction="#handleAddInventory"/>
+            </HBox>
+            
+            <TableView fx:id="inventoryTable" styleClass="table-view" prefHeight="500.0">
+                <columns>
+                    <TableColumn fx:id="inventoryIdCol" text="ID" prefWidth="60.0"/>
+                    <TableColumn fx:id="productNameCol" text="Product" prefWidth="200.0"/>
+                    <TableColumn fx:id="stockCol" text="Stock" prefWidth="100.0"/>
+                    <TableColumn fx:id="locationCol" text="Warehouse" prefWidth="150.0"/>
+                    <TableColumn fx:id="updatedCol" text="Last Updated" prefWidth="150.0"/>
+                    <TableColumn fx:id="actionsCol" text="Actions" prefWidth="200.0"/>
+                </columns>
+            </TableView>
+            
+            <VBox fx:id="inventoryFormContainer" styleClass="card" spacing="16.0" visible="false">
+                <Label fx:id="formTitleLabel" text="Add Inventory" styleClass="heading-2"/>
+                
+                <VBox spacing="12.0">
+                    <Label text="Product" styleClass="text-secondary"/>
+                    <ComboBox fx:id="productComboBox" styleClass="form-field"/>
+                </VBox>
+                
+                <HBox spacing="16.0">
+                    <VBox spacing="12.0" prefWidth="150.0">
+                        <Label text="Stock Quantity" styleClass="text-secondary"/>
+                        <TextField fx:id="stockField" styleClass="form-field"/>
+                    </VBox>
+                    
+                    <VBox spacing="12.0" HBox.hgrow="ALWAYS">
+                        <Label text="Warehouse Location" styleClass="text-secondary"/>
+                        <TextField fx:id="locationField" styleClass="form-field"/>
+                    </VBox>
+                </HBox>
+                
+                <HBox spacing="12.0">
+                    <Button text="Save" styleClass="primary-button" onAction="#handleSaveInventory"/>
+                    <Button text="Cancel" styleClass="secondary-button" onAction="#handleCancelForm"/>
+                </HBox>
+                
+                <Label fx:id="inventoryErrorLabel" styleClass="error-label" visible="false"/>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.CustomerController"
+            stylesheets="@../../styles/main-styles.css">
+    <top>
+        <fx:include source="../../components/navigation-bar.fxml"/>
+    </top>
+    
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0" prefWidth="200.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            
+            <Label text="Menu" styleClass="heading-3">
+                <VBox.margin>
+                    <Insets bottom="16.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Button text="Dashboard" styleClass="sidebar-button" onAction="#navigateToDashboard"/>
+            <Button text="Products" styleClass="sidebar-button" onAction="#navigateToProducts"/>
+            <Button text="Cart" fx:id="cartButton" styleClass="sidebar-button" onAction="#navigateToCart">
+                <graphic>
+                    <Label fx:id="cartBadgeLabel" text="(0)" styleClass="badge badge-primary"/>
+                </graphic>
+            </Button>
+            <Button text="Orders" styleClass="sidebar-button" onAction="#navigateToOrders"/>
+            <Button text="Profile" styleClass="sidebar-button" onAction="#navigateToProfile"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+            <VBox styleClass="dashboard-pane" spacing="24.0">
+                <padding>
+                    <Insets bottom="24.0" left="24.0" right="24.0" top="24.0"/>
+                </padding>
+                
+                <Label fx:id="welcomeLabel" text="Welcome!" styleClass="heading-1"/>
+                
+                <HBox spacing="16.0">
+                    <VBox styleClass="card" spacing="12.0" prefWidth="250.0">
+                        <Label text="Total Orders" styleClass="text-secondary"/>
+                        <Label fx:id="totalOrdersLabel" text="0" styleClass="heading-2"/>
+                    </VBox>
+                    
+                    <VBox styleClass="card" spacing="12.0" prefWidth="250.0">
+                        <Label text="Cart Items" styleClass="text-secondary"/>
+                        <Label fx:id="cartItemsLabel" text="0" styleClass="heading-2"/>
+                    </VBox>
+                    
+                    <VBox styleClass="card" spacing="12.0" prefWidth="250.0">
+                        <Label text="Pending Orders" styleClass="text-secondary"/>
+                        <Label fx:id="pendingOrdersLabel" text="0" styleClass="heading-2"/>
+                    </VBox>
+                </HBox>
+                
+                <VBox spacing="16.0">
+                    <Label text="Recent Orders" styleClass="heading-3"/>
+                    <VBox fx:id="recentOrdersContainer" spacing="12.0"/>
+                </VBox>
+                
+                <VBox spacing="16.0">
+                    <Label text="Featured Products" styleClass="heading-3"/>
+                    <FlowPane fx:id="featuredProductsContainer" hgap="16.0" vgap="16.0"/>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

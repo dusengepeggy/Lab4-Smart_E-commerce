@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.ProductDetailController"
+            stylesheets="@../../styles/main-styles.css">
+    <top>
+        <fx:include source="../../components/navigation-bar.fxml"/>
+    </top>
+    
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0" prefWidth="200.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            
+            <Label text="Menu" styleClass="heading-3">
+                <VBox.margin>
+                    <Insets bottom="16.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Button text="Dashboard" styleClass="sidebar-button" onAction="#navigateToDashboard"/>
+            <Button text="Products" styleClass="sidebar-button" onAction="#navigateToProducts"/>
+            <Button fx:id="cartButton" text="Cart" styleClass="sidebar-button" onAction="#navigateToCart">
+                <graphic>
+                    <Label fx:id="cartBadgeLabel" text="(0)" styleClass="badge badge-primary"/>
+                </graphic>
+            </Button>
+            <Button text="Orders" styleClass="sidebar-button" onAction="#navigateToOrders"/>
+            <Button text="Profile" styleClass="sidebar-button" onAction="#navigateToProfile"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+            <VBox styleClass="content-pane" spacing="24.0">
+                <HBox spacing="24.0">
+                    <Region prefWidth="400.0" prefHeight="400.0" style="-fx-background-color: #dee2ff; -fx-background-radius: 12px;"/>
+                    
+                    <VBox spacing="16.0" HBox.hgrow="ALWAYS">
+                        <VBox spacing="8.0">
+                            <Label fx:id="productNameLabel" text="Product Name" styleClass="heading-1"/>
+                            <Label fx:id="categoryLabel" text="Category" styleClass="text-secondary">
+                                <font>
+                                    <Font size="16.0"/>
+                                </font>
+                            </Label>
+                            <HBox spacing="12.0" alignment="CENTER_LEFT">
+                                <Label fx:id="ratingLabel" text="★ 4.5" styleClass="text-secondary">
+                                    <font>
+                                        <Font size="14.0"/>
+                                    </font>
+                                </Label>
+                                <Label fx:id="reviewCountLabel" text="(12 reviews)" styleClass="text-secondary">
+                                    <font>
+                                        <Font size="12.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="priceLabel" text="\$99.99" styleClass="heading-2" style="-fx-text-fill: #8e9aaf;">
+                                <font>
+                                    <Font name="System Bold" size="28.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+                        
+                        <Separator/>
+                        
+                        <VBox spacing="12.0">
+                            <Label text="Description" styleClass="heading-4"/>
+                            <Label fx:id="descriptionLabel" text="Product description here..." styleClass="text-primary" wrapText="true"/>
+                        </VBox>
+                        
+                        <Separator/>
+                        
+                        <VBox spacing="12.0">
+                            <Label text="Quantity" styleClass="heading-4"/>
+                            <HBox spacing="12.0" alignment="CENTER_LEFT">
+                                <Button text="-" styleClass="secondary-button" onAction="#decreaseQuantity" minWidth="40.0"/>
+                                <TextField fx:id="quantityField" text="1" styleClass="form-field" prefWidth="80.0" alignment="CENTER"/>
+                                <Button text="+" styleClass="secondary-button" onAction="#increaseQuantity" minWidth="40.0"/>
+                            </HBox>
+                        </VBox>
+                        
+                        <HBox spacing="12.0">
+                            <Button text="Add to Cart" styleClass="primary-button" onAction="#handleAddToCart" HBox.hgrow="ALWAYS">
+                                <font>
+                                    <Font size="16.0"/>
+                                </font>
+                            </Button>
+                            <Button text="Buy Now" styleClass="primary-button" onAction="#handleBuyNow" HBox.hgrow="ALWAYS">
+                                <font>
+                                    <Font size="16.0"/>
+                                </font>
+                            </Button>
+                        </HBox>
+                        
+                        <Label fx:id="errorLabel" styleClass="error-label" visible="false"/>
+                        <Label fx:id="successLabel" styleClass="success-label" visible="false"/>
+                    </VBox>
+                </HBox>
+                
+                <Separator/>
+                
+                <VBox spacing="16.0">
+                    <HBox spacing="12.0" alignment="CENTER_LEFT">
+                        <Label text="Reviews" styleClass="heading-2"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Write Review" styleClass="primary-button" onAction="#handleWriteReview"/>
+                    </HBox>
+                    <VBox fx:id="reviewsContainer" spacing="12.0"/>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

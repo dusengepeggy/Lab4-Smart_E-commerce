@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controllers.ReviewManagementController"
+            stylesheets="@../../styles/main-styles.css">
+    <top>
+        <fx:include source="../../components/navigation-bar.fxml"/>
+    </top>
+    
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0" prefWidth="200.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            </padding>
+            
+            <Label text="Admin Menu" styleClass="heading-3">
+                <VBox.margin>
+                    <Insets bottom="16.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Button text="Dashboard" styleClass="sidebar-button" onAction="#navigateToDashboard"/>
+            <Button text="Products" styleClass="sidebar-button" onAction="#navigateToProducts"/>
+            <Button text="Categories" styleClass="sidebar-button" onAction="#navigateToCategories"/>
+            <Button text="Inventory" styleClass="sidebar-button" onAction="#navigateToInventory"/>
+            <Button text="Orders" styleClass="sidebar-button" onAction="#navigateToOrders"/>
+            <Button text="Users" styleClass="sidebar-button" onAction="#navigateToUsers"/>
+            <Button text="Reviews" styleClass="sidebar-button" style="-fx-background-color: #000000; -fx-text-fill: white;"/>
+        </VBox>
+    </left>
+    
+    <center>
+        <VBox styleClass="content-pane" spacing="24.0">
+            <Label text="Review Management" styleClass="heading-1"/>
+            
+            <TableView fx:id="reviewsTable" styleClass="table-view" prefHeight="600.0">
+                <columns>
+                    <TableColumn fx:id="reviewIdCol" text="ID" prefWidth="60.0"/>
+                    <TableColumn fx:id="usernameCol" text="User" prefWidth="150.0"/>
+                    <TableColumn fx:id="productNameCol" text="Product" prefWidth="200.0"/>
+                    <TableColumn fx:id="ratingCol" text="Rating" prefWidth="80.0"/>
+                    <TableColumn fx:id="commentCol" text="Comment" prefWidth="300.0"/>
+                    <TableColumn fx:id="dateCol" text="Date" prefWidth="120.0"/>
+                    <TableColumn fx:id="actionsCol" text="Actions" prefWidth="150.0"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>
